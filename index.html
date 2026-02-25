@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Сад Призвания: Твоё место в Теле</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600;800&display=swap');
+        
+        :root {
+            --gold: #c5a059;
+            --deep-green: #064e3b;
+            --earth: #1a120b;
+            --sky: #020617;
+            --leaf: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--sky);
+            color: #f8fafc;
+            margin: 0;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, .serif { font-family: 'Playfair Display', serif; }
+
+        .screen {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            padding: 30px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+        }
+
+        .screen.active { display: flex; animation: fadeIn 1s ease-out forwards; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* СТИЛЬ КНОПОК-ДЕЙСТВИЙ */
+        .action-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 2px;
+            transition: all 0.4s;
+            backdrop-filter: blur(5px);
+        }
+        .action-btn:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
+        .action-btn:active { transform: scale(0.95); }
+
+        /* ВИЗУАЛИЗАЦИЯ РОСТА */
+        .garden-plot {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .soil {
+            position: absolute;
+            bottom: 0;
+            width: 200px;
+            height: 40px;
+            background: var(--earth);
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        /* SVG РОСТКА */
+        #growth-svg {
+            width: 200px;
+            height: 350px;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.2));
+        }
+
+        .stem {
+            fill: none;
+            stroke: var(--leaf);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 2s ease-out;
+        }
+
+        .leaf {
+            fill: var(--leaf);
+            opacity: 0;
+            transform-origin: center;
+            transform: scale(0);
+            transition: all 1s ease-out;
+        }
+
+        .flower {
+            fill: var(--gold);
+            opacity: 0;
+            transform: scale(0) translateY(20px);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* ПОЛЯ ВВОДА */
+        .input-minimal {
+            background: transparent;
+            border-bottom: 1px solid var(--border);
+            padding: 12px;
+            color: #fff;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            outline: none;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+        .input-minimal:focus { border-bottom-color: var(--gold); }
+
+        /* ПОДСКАЗКИ */
+        .hint-text {
+            font-size: 12px;
+            color: #64748b;
+            max-width: 280px;
+            line-height: 1.6;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .god-increase {
+            position: absolute;
+            top: 20%;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--gold);
+            opacity: 0;
+            text-transform: uppercase;
+        }
+        .animate-float { animation: floatText 4s infinite ease-in-out; }
+        @keyframes floatText { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    </style>
+</head>
+<body>
+
+    <!-- ЭКРАН 1: ПОДГОТОВКА ПОЧВЫ -->
+    <div class="screen active" id="s1">
+        <h1 class="text-4xl font-bold mb-6 text-white tracking-tight italic">Сад Призвания</h1>
+        <p class="serif text-yellow-600 text-lg mb-10">«Больше всего хранимого храни сердце твое...»</p>
+        
+        <div class="space-y-6 w-full flex flex-col items-center">
+            <input type="text" id="user-name" class="input-minimal" placeholder="Ваше Имя">
+            <p class="hint-text text-center">Сердце человека подобно почве. Прежде чем искать призвание, нужно подготовить место для Божьего семени.</p>
+            <button class="action-btn mt-8" onclick="startProcess()">Войти в Сад</button>
+        </div>
+    </div>
+
+    <!-- ЭКРАН 2: ВЫБОР СЕМЕНИ -->
+    <div class="screen" id="s2">
+        <h2 class="text-xl font-bold text-yellow-500 mb-8 uppercase tracking-widest">Какое семя Вы сажаете?</h2>
+        <div class="grid grid-cols-1 gap-4 w-full max-w-xs">
+            <button class="action-btn" onclick="plantSeed('Служение')">Семя Служения (Дары Духа)</button>
+            <button class="action-btn" onclick="plantSeed('Профессия')">Семя Мастерства (Этика труда)</button>
+            <button class="action-btn" onclick="plantSeed('Забота')">Семя Милосердия (Нужды других)</button>
+        </div>
+        <p class="hint-text text-center mt-10">
+            «Ответственность за плод возлагается не на семя, а на землю, которая его принимает» (Евр. 6:7).
+        </p>
+    </div>
+
+    <!-- ЭКРАН 3: ПРОЦЕСС РОСТА (ИНТЕРАКТИВ) -->
+    <div class="screen" id="s3">
+        <div class="god-increase" id="god-msg">Бог взращивает...</div>
+        
+        <div class="garden-plot">
+            <div class="soil"></div>
+            <svg id="growth-svg" viewBox="0 0 100 200">
+                <!-- Стебель -->
+                <path id="stem-path" class="stem" d="M50,200 Q50,150 50,100 T50,20" />
+                <!-- Листья -->
+                <path class="leaf" id="leaf1" d="M50,150 Q70,140 80,150 Q70,160 50,150" />
+                <path class="leaf" id="leaf2" d="M50,120 Q30,110 20,120 Q30,130 50,120" />
+                <path class="leaf" id="leaf3" d="M50,80 Q75,60 85,80 Q75,100 50,80" />
+                <!-- Бутон/Цветок -->
+                <g class="flower" id="flower-head">
+                    <circle cx="50" cy="20" r="12" fill="var(--gold)" />
+                    <path d="M50,20 L50,0 M50,20 L70,10 M50,20 L70,30 M50,20 L30,10 M50,20 L30,30" stroke="var(--gold)" stroke-width="2"/>
+                </g>
+            </svg>
+        </div>
+
+        <div id="controls" class="space-y-3 w-full max-w-xs transition-opacity duration-500">
+            <p class="text-[10px] uppercase font-black tracking-widest text-slate-500 mb-4">Уход за сердцем:</p>
+            <button class="action-btn w-full" id="btn-word" onclick="interact('word')">Пребывать в Слове</button>
+            <button class="action-btn w-full" id="btn-prayer" onclick="interact('prayer')">Пребывать в Молитве</button>
+            <button class="action-btn w-full" id="btn-humility" onclick="interact('humility')">Смирение (укрощение воли)</button>
+        </div>
+
+        <div id="final-step" class="hidden animate-in fade-in">
+            <p class="serif italic text-yellow-500 text-lg mb-6" id="quote-box"></p>
+            <button class="action-btn" onclick="showManifesto()">Увидеть Плод</button>
+        </div>
+    </div>
+
+    <!-- ЭКРАН 4: МАНИФЕСТ ПЛОДА -->
+    <div class="screen" id="s4">
+        <div class="w-full max-w-sm bg-slate-900/80 p-8 rounded-[3rem] border border-gold/30 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-gold/5 rounded-full blur-3xl"></div>
+            
+            <h2 class="serif italic text-3xl text-white mb-2" id="manifesto-name">Имя</h2>
+            <p class="text-[9px] font-black uppercase tracking-[0.4em] text-yellow-500 mb-8 border-b border-slate-800 pb-4">Плод Призвания Созрел</p>
+            
+            <div class="text-left space-y-6">
+                <div>
+                    <span class="text-[10px] font-black text-slate-500 uppercase block mb-1 tracking-widest">Моя уникальность:</span>
+                    <p class="text-sm italic text-slate-300 leading-relaxed" id="res-skill">---</p>
+                </div>
+                <div>
+                    <span class="text-[10px] font-black text-slate-500 uppercase block mb-1 tracking-widest">Где я нужен Богу:</span>
+                    <p class="text-sm italic text-slate-300 leading-relaxed" id="res-need">---</p>
+                </div>
+            </div>
+
+            <div class="mt-10 pt-6 border-t border-slate-800 text-center">
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    «Я насадил, Аполлос поливал, но <b>взрастил Бог</b>» <br> (1 Кор. 3:6)
+                </p>
+            </div>
+        </div>
+        
+        <p class="text-[10px] text-slate-600 mt-10 px-10 leading-relaxed uppercase font-bold text-center">
+            Сделайте скриншот этого Плода. <br> Это Ваш ответ на призыв Творца в 7-м уроке.
+        </p>
+        <button class="action-btn mt-8 border-none text-slate-500" onclick="location.reload()">Начать новый цикл</button>
+    </div>
+
+    <script>
+        let userName = "";
+        let progress = 0;
+        let actions = new Set();
+        let stemOffset = 1000;
+
+        function startProcess() {
+            const input = document.getElementById('user-name').value;
+            if (input.length < 2) return alert("Введите имя для почвы сердца");
+            userName = input;
+            next(2);
+        }
+
+        function plantSeed(type) {
+            next(3);
+            setTimeout(() => {
+                document.getElementById('god-msg').style.opacity = 1;
+                document.getElementById('god-msg').classList.add('animate-float');
+            }, 1000);
+        }
+
+        function next(n) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('s' + n).classList.add('active');
+        }
+
+        function interact(type) {
+            if (actions.has(type)) return;
+            actions.add(type);
+            
+            // Визуальный рост
+            const step = 333; // 1000 / 3
+            stemOffset -= step;
+            document.getElementById('stem-path').style.strokeDashoffset = stemOffset;
+            
+            // Появление листьев по очереди
+            if (actions.size === 1) document.getElementById('leaf1').style.opacity = 1, document.getElementById('leaf1').style.transform = "scale(1)";
+            if (actions.size === 2) document.getElementById('leaf2').style.opacity = 1, document.getElementById('leaf2').style.transform = "scale(1)";
+            if (actions.size === 3) {
+                document.getElementById('leaf3').style.opacity = 1;
+                document.getElementById('leaf3').style.transform = "scale(1)";
+                
+                // Финальное цветение
+                setTimeout(() => {
+                    document.getElementById('flower-head').style.opacity = 1;
+                    document.getElementById('flower-head').style.transform = "scale(1.5) translateY(0)";
+                    document.getElementById('controls').classList.add('opacity-0');
+                    setTimeout(() => {
+                        document.getElementById('controls').classList.add('hidden');
+                        document.getElementById('final-step').classList.remove('hidden');
+                        document.getElementById('quote-box').innerText = "«Ветвь пребывает на Лозе и производит сорт винограда, содержащийся в Лозе...»";
+                    }, 500);
+                }, 1000);
+            }
+
+            // Эффект "нажатой" кнопки
+            document.getElementById('btn-' + type).style.borderColor = "var(--leaf)";
+            document.getElementById('btn-' + type).style.color = "var(--leaf)";
+            document.getElementById('btn-' + type).innerText += " ✓";
+        }
+
+        function showManifesto() {
+            // Здесь мы запрашиваем 2 финальных вопроса в стиле "Двух сторон листа"
+            const skill = prompt("Ваша главная особенность? (Профессия, талант, ДНК):", "");
+            const need = prompt("Чью нужду Вы видите рядом? (Кому болит?):", "");
+            
+            document.getElementById('manifesto-name').innerText = userName;
+            document.getElementById('res-skill').innerText = skill || "Служение в простоте";
+            document.getElementById('res-need').innerText = need || "Поддержка сокрушенных";
+            
+            next(4);
+        }
+    </script>
+</body>
+</html>
