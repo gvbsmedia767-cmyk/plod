@@ -1,0 +1,2 @@
+{"name":"gvm-remotion-test","private":true,"version":"1.0.0","scripts":{"render":"remotion render src/index.ts LowerThird out/lowerthird.mp4 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell","still":"remotion still src/index.ts LowerThird out/frame.png --frame=60 --browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell"},
+"dependencies":{"remotion":"4.0.537","@remotion/cli":"4.0.537","react":"18.3.1","react-dom":"18.3.1","typescript":"5.6.3","@types/react":"18.3.12"}}
