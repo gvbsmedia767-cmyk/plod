@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GVM Studio — прототип</title>
+<style>
+:root{--bg:#0b1020;--panel:#141c33;--line:#26325a;--text:#f2f5ff;--mute:#9aa6cf;--accent:#f5b942;--ok:#4ade80}
+@media (prefers-color-scheme: light){:root{--bg:#f4f6fc;--panel:#fff;--line:#d9def0;--text:#0b1020;--mute:#566086}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:max(16px,env(safe-area-inset-top)) 16px 16px}
+.app{max-width:1100px;margin:0 auto;display:grid;gap:16px;grid-template-columns:1fr}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+h1{font-size:1.25rem;margin:0}
+.badge{font-size:.8rem;color:var(--mute)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.stages{display:grid;gap:8px;list-style:none;margin:0;padding:0}
+.stage{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:transparent;color:inherit;width:100%;font:inherit;cursor:pointer;text-align:left}
+.stage[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.stage:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.st{font-size:.8rem;color:var(--mute)}.st.done{color:var(--ok)}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:12px 0}
+.bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+.btn{min-height:48px;padding:0 20px;border-radius:12px;border:0;background:var(--accent);color:#1b1300;font-weight:700;font:inherit;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.empty{color:var(--mute)}
+@media (min-width:760px){.app{grid-template-columns:320px 1fr}header{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){.bar>i{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>GVM Studio</h1><span class="badge" id="sum">0 из 4 этапов</span></header>
+<section class="card" aria-label="Этапы проекта">
+<ul class="stages" id="list"></ul>
+</section>
+<section class="card" aria-live="polite">
+<h2 id="t" style="margin-top:0">Выберите этап</h2>
+<p class="empty" id="d">Нажмите на этап слева, чтобы увидеть детали.</p>
+<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="pb"><i id="pf"></i></div>
+<button class="btn" id="go" disabled>Отметить выполненным</button>
+</section>
+</div>
+<script>
+const stages=[
+ {n:'Бриф и референсы',d:'Цель, аудитория, платформа, хронометраж.'},
+ {n:'Монтаж',d:'Структура мысли, хук, ритм, мотивированные склейки.'},
+ {n:'Моушн и звук',d:'Титры, оверлеи, сведение, лаудность.'},
+ {n:'Проверка и выдача',d:'QA на телефоне и ПК, экспорт, архив.'}];
+const state=JSON.parse((()=>{try{return localStorage.getItem('gvm')}catch(e){return null}})()||'{"done":[],"sel":null}');
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem('gvm',JSON.stringify(state))}catch(e){}}
+function render(){
+ $('list').innerHTML='';
+ stages.forEach((s,i)=>{const li=document.createElement('li');const b=document.createElement('button');
+  b.className='stage';b.setAttribute('aria-pressed',state.sel===i);
+  const done=state.done.includes(i);
+  b.innerHTML=`<span>${i+1}. ${s.n}</span><span class="st ${done?'done':''}">${done?'готово':'в работе'}</span>`;
+  b.onclick=()=>{state.sel=i;save();render()};li.append(b);$('list').append(li)});
+ const p=Math.round(state.done.length/stages.length*100);
+ $('sum').textContent=`${state.done.length} из ${stages.length} этапов`;
+ $('pf').style.width=p+'%';$('pb').setAttribute('aria-valuenow',p);
+ const s=stages[state.sel];
+ $('t').textContent=s?s.n:'Выберите этап';$('d').textContent=s?s.d:'Нажмите на этап слева, чтобы увидеть детали.';
+ $('go').disabled=state.sel===null||state.done.includes(state.sel);
+}
+$('go').onclick=()=>{state.done.push(state.sel);save();render()};
+render();
+</script>
+</body></html>
