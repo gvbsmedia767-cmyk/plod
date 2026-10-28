@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@400;800;900&family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&family=Onest:wght@400;500;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&family=IBM+Plex+Sans:wght@400;500&family=Commissioner:wght@200;400;800&family=Golos+Text:wght@400;600&family=Unbounded:wght@400;700;900&family=Cormorant:ital,wght@0,300;0,600;1,300;1,500&family=Ysabeau+Office:wght@400;600&family=Tiny5&family=Dela+Gothic+One&family=Caveat:wght@500;700&family=Rubik+Mono+One&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#222;font-family:'Golos Text',sans-serif}
+.board{width:1600px;height:880px;position:relative;overflow:hidden;page-break-after:always;display:grid;grid-template-columns:360px minmax(0,1fr) 400px;grid-template-rows:120px 1fr;gap:28px;padding:36px 40px 40px}
+.head{grid-column:1/-1;display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.head .num{font-size:15px;letter-spacing:.2em;text-transform:uppercase;opacity:.65}
+.head h1{font-size:60px;line-height:1;margin-top:8px}
+.head p{max-width:560px;font-size:17px;line-height:1.4;opacity:.85;text-align:right}
+.reels{width:360px;height:640px;position:relative;overflow:hidden;border-radius:18px;align-self:start}
+.reels .lbl{position:absolute;bottom:-26px;left:0;font-size:12px;opacity:.6}
+.web{position:relative;overflow:hidden;border-radius:10px;height:500px;align-self:start}
+.cap{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
+.side{display:flex;flex-direction:column;gap:18px;font-size:14px;line-height:1.45}
+.pal{display:flex;height:92px;border-radius:8px;overflow:hidden}
+.pal div{flex:1;display:flex;align-items:flex-end;padding:6px;font:11px/1 'Martian Mono',monospace}
+.pal div:first-child{flex:2}
+.type .big{font-size:40px;line-height:1.05}
+.type small{display:block;font-size:12px;opacity:.65;margin-top:4px}
+.refs{font-size:12px;opacity:.75;word-break:break-all}
+.under{grid-column:1/3;display:grid;grid-template-columns:360px 1fr;gap:28px;margin-top:-6px}
+.film{position:absolute;inset:0}
+canvas.f{position:absolute;inset:0;width:100%;height:100%}
+.ph{position:absolute;right:10px;top:10px;font:10px 'Martian Mono',monospace;opacity:.5;color:#fff}
+</style></head><body>
+
+<!-- ========== 1 КАДР-ШРИФТ ========== -->
+<section class="board" id="b1" style="background:#0A0A0B;color:#F2EFE8">
+ <div class="head"><div><div class="num">Направление 01</div><h1 style="font-family:'Sofia Sans Extra Condensed';font-weight:900;font-size:92px;text-transform:uppercase;letter-spacing:-.01em">Кадр-шрифт</h1></div>
+ <p>Шрифт — главный актёр. Буквы сжимаются и растягиваются в ритм монтажа: ширина привязана к BPM трека. Развитие нынешнего жирного капса GVM, только радикальнее.</p></div>
+ <div>
+  <div class="reels" style="background:#0A0A0B">
+   <canvas class="f" data-k="warm"></canvas><div class="ph">кадр клиента</div>
+   <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,#0A0A0Bee)"></div>
+   <div style="position:absolute;left:-6px;right:-30px;top:330px;font-family:'Roboto Flex';font-variation-settings:'wdth' 25,'wght' 1000;font-size:150px;line-height:.82;color:#F2EFE8;text-transform:uppercase">ХАРАК<br><span style="font-variation-settings:'wdth' 151,'wght' 1000;color:#FF5B1F;font-size:120px">ТЕР</span></div>
+   <div style="position:absolute;left:18px;bottom:22px;right:18px;display:flex;justify-content:space-between;font:600 11px 'Onest';letter-spacing:.12em"><span>GVM / РИЛС</span><span style="color:#FF5B1F">♩ 124 BPM</span></div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#1A1A1C">
+   <div style="display:flex;justify-content:space-between;padding:22px 30px;font:500 14px 'Onest'"><b style="font-family:'Sofia Sans Extra Condensed';font-weight:900;font-size:26px">GVM</b><span style="opacity:.7">Работы · Студия · Контакты</span></div>
+   <div style="padding:10px 30px;font-family:'Sofia Sans Extra Condensed';font-weight:900;font-size:150px;line-height:.82;text-transform:uppercase;white-space:nowrap;margin-left:-6px">ВИДЕО <span style="color:#FF5B1F">В РИТМ</span></div>
+   <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:10px;padding:26px 30px 0">
+    <p style="grid-column:1/6;font:400 17px/1.45 'Onest';opacity:.85">Рекламные ролики, рилсы и истории людей. Монтируем так, что шрифт двигается вместе с музыкой.</p>
+    <div style="grid-column:9/13;align-self:end;justify-self:end;border:2px solid #F2EFE8;padding:12px 18px;font:700 13px 'Onest';letter-spacing:.1em">ОБСУДИТЬ ПРОЕКТ →</div>
+   </div>
+   <div style="position:absolute;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;gap:26px;padding:0 30px;background:#FF5B1F;color:#0A0A0B;font-family:'Roboto Flex';font-variation-settings:'wdth' 151,'wght' 900;font-size:30px;white-space:nowrap">РИТМ · ХАРАКТЕР · ЭМОЦИЯ · РИТМ</div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font:400 13px/1.4 'Onest';opacity:.8"><div style="flex:1"><div class="cap">Движение</div>За 2–4 кадра до склейки слово «вдыхает» по ширине. Кривые жёсткие, без затуханий.</div><div style="flex:1"><div class="cap">Фирменный ход</div>«Шрифт-метроном»: ширина титров = BPM трека. Узнаётся в каждом рилсе.</div><div style="flex:1"><div class="cap">Риск</div>Близко к Studio Dumbar и Kiln. Для свадеб и клиник бывает слишком громко.</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal"><div style="background:#0A0A0B;color:#F2EFE8;outline:1px solid #333">#0A0A0B</div><div style="background:#F2EFE8;color:#0A0A0B">F2EFE8</div><div style="background:#FF5B1F;color:#0A0A0B">FF5B1F</div><div style="background:#6E6C68">6E6C68</div><div style="background:#1A1A1C;color:#F2EFE8">1A1A1C</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL, бесплатно)</div><div class="big" style="font-family:'Sofia Sans Extra Condensed';font-weight:900;font-size:56px">ЁЖИК В ТУМАНЕ</div><small>Sofia Sans Extra Condensed 900 — заголовки</small><div class="big" style="font-family:'Roboto Flex';font-variation-settings:'wdth' 151,'wght' 900;font-size:34px;margin-top:10px">ШИРЕ</div><small>Roboto Flex — анимация ширины 25–151</small><div style="font:400 17px 'Onest';margin-top:10px">Съешь же ещё этих мягких булок</div><small>Onest — текст · апгрейд: Druk Cyrillic (платный)</small></div>
+  <div class="refs"><div class="cap">Референсы</div>studiodumbar.com/work/cities-in-motion<br>creativereview.co.uk — Studio Kiln × BAFTA 2026<br>abduzeedo.com — Broaden film studio</div>
+ </aside>
+</section>
+
+<!-- ========== 2 ЭДЖ-КОД ========== -->
+<section class="board" id="b2" style="background:#0D0D0F;color:#ECE8DF;font-family:'IBM Plex Sans'">
+ <div class="head"><div><div class="num" style="font-family:'Martian Mono'">ДИР_02 · A-CAM · TC 00:00:02:00</div><h1 style="font-family:'Martian Mono';font-weight:800;font-variation-settings:'wdth' 112.5;font-size:72px;text-transform:uppercase">Эдж-код</h1></div>
+ <p>Айдентика из языка производства: таймкод, эдж-коды плёнки, рамки видоискателя, номера дублей. Честно для видеостудии и продолжает нынешние метки кадра GVM.</p></div>
+ <div>
+  <div class="reels" style="background:#0D0D0F">
+   <canvas class="f" data-k="cool"></canvas><div class="ph">кадр клиента</div>
+   <svg style="position:absolute;inset:0" width="360" height="640"><g fill="none" stroke="#ECE8DF" stroke-width="2"><path d="M24 64V40H48M312 40H336V64M24 576V600H48M312 600H336V576"/><path d="M172 320h16M180 312v16" stroke-width="1.5"/></g><rect x="24" y="40" width="312" height="560" fill="none" stroke="#ECE8DF" stroke-opacity=".18" stroke-dasharray="2 6"/></svg>
+   <div style="position:absolute;left:30px;top:52px;font:500 11px 'Martian Mono';display:flex;gap:10px"><span style="color:#FF3B1F">● REC</span><span>TC 01:02:14:08</span></div>
+   <div style="position:absolute;left:30px;right:30px;top:410px;font-family:'Martian Mono';font-weight:800;font-variation-settings:'wdth' 75;font-size:56px;line-height:.95;text-transform:uppercase">ДУБЛЬ<br>ВТОРОЙ.<br><span style="color:#FFB000">ЛУЧШЕ.</span></div>
+   <div style="position:absolute;left:30px;bottom:52px;font:400 10px 'Martian Mono';color:#ECE8DF;opacity:.8">OMSK 55°N · 2026 · #114 · SC 04 / TK 2</div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#0D0D0F;border:1px solid #3A3A3F">
+   <div style="display:flex;justify-content:space-between;padding:16px 26px;border-bottom:1px solid #3A3A3F;font:400 12px 'Martian Mono'"><span>GVM_PRODUCTION</span><span style="opacity:.7">[01] РАБОТЫ  [02] СТУДИЯ  [03] СВЯЗЬ</span><span style="color:#FFB000">TC 14:22:07:19</span></div>
+   <div style="display:grid;grid-template-columns:1.2fr 1fr;height:calc(100% - 50px)">
+    <div style="padding:34px 26px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #3A3A3F">
+     <div style="font-family:'Martian Mono';font-weight:800;font-variation-settings:'wdth' 75;font-size:64px;line-height:.98;text-transform:uppercase">Снимаем.<br>Монтируем.<br><span style="color:#FF3B1F">Сдаём в срок.</span></div>
+     <p style="font-size:15px;line-height:1.5;opacity:.85;max-width:380px">Видеопродакшн полного цикла в Омске: от сценария до мастер-файла. Каждый проект получает свой паспорт.</p>
+    </div>
+    <div style="position:relative;overflow:hidden"><canvas class="f" data-k="cool"></canvas>
+     <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 18px;background:#0D0D0Fdd;font:400 11px/1.7 'Martian Mono'">ПРОЕКТ #114 · КЛИНИКА «ВЕГА»<br>ФОРМАТ 9:16 · 4K · 25P<br><span style="color:#FFB000">СДАН 12.10.2026</span></div>
+     <div style="position:absolute;left:0;top:0;bottom:0;width:14px;background:repeating-linear-gradient(#0D0D0F 0 10px,transparent 10px 22px)"></div></div>
+   </div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.4;opacity:.85"><div style="flex:1"><div class="cap">Движение</div>Таймкод реально бежит. Титр печатается по 1 кадру, переходы — «прокрутка плёнки» 3–6 кадров.</div><div style="flex:1"><div class="cap">Фирменный ход</div>Паспорт-эджкод каждой работы: «OMSK 55°N · 2026 · #114» — на кейсах, мерче, финальном кадре.</div><div style="flex:1"><div class="cap">Риск</div>Легко уйти в «хакерский HUD». Правило: не больше 1–2 служебных строк на кадр.</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal"><div style="background:#0D0D0F;color:#ECE8DF;outline:1px solid #3A3A3F">#0D0D0F</div><div style="background:#ECE8DF;color:#0D0D0F">ECE8DF</div><div style="background:#FF3B1F">FF3B1F</div><div style="background:#FFB000;color:#0D0D0F">FFB000</div><div style="background:#3A3A3F">3A3A3F</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL)</div><div class="big" style="font-family:'Martian Mono';font-weight:800;font-variation-settings:'wdth' 75;font-size:44px">ЁЖ 01:02</div><small>Martian Mono 800, ширина 75–112 — заголовки и данные</small><div style="font:400 17px 'IBM Plex Sans';margin-top:12px">Съешь же ещё этих мягких булок</div><small>IBM Plex Sans — текст</small></div>
+  <div class="refs"><div class="cap">Референсы</div>abduzeedo.com/node/89157 — Microdot<br>itsnicethat.com — Two Times Elliott rebrand<br>lbbonline.com/work/173030</div>
+ </aside>
+</section>
+
+<!-- ========== 3 ЗАСВЕТКА ========== -->
+<section class="board" id="b3" style="background:#0B0806;color:#F5EAD6;font-family:'Golos Text'">
+ <div class="head"><div><div class="num">Направление 03</div><h1 style="font-family:'Commissioner';font-weight:800;font-variation-settings:'FLAR' 100;font-size:84px;color:#FFB347;text-shadow:0 0 30px #FF3B1F88">Засветка</h1></div>
+ <p>Бренд нарисован светом: засветки, халация, луч проектора. Ремесло оператора, а не графика. Знак GVM каждый раз снимается вживую через трафарет — каждая заставка уникальна.</p></div>
+ <div>
+  <div class="reels" style="background:#0B0806">
+   <canvas class="f" data-k="leak"></canvas><div class="ph">кадр клиента</div>
+   <div style="position:absolute;inset:0;background:radial-gradient(120% 60% at 90% 10%,#FF3B1F66,transparent 60%),radial-gradient(80% 40% at 0% 100%,#FFB34755,transparent 70%)"></div>
+   <div style="position:absolute;left:26px;right:26px;top:300px;font-family:'Commissioner';font-weight:200;font-variation-settings:'FLAR' 100;font-size:60px;line-height:1;color:#F5EAD6;text-shadow:0 0 18px #FFB347,0 0 50px #FF3B1F">Всё начинается<br>со <i style="font-weight:800;color:#FFB347">света</i></div>
+   <div style="position:absolute;left:26px;bottom:26px;font:400 12px 'Golos Text';letter-spacing:.14em;opacity:.8">GOOD VIBES MEDIA</div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#0B0806">
+   <canvas class="f" data-k="leak"></canvas>
+   <div style="position:absolute;inset:0;background:radial-gradient(60% 90% at 78% 40%,#FFB34755,transparent 60%),linear-gradient(90deg,#0B0806 30%,transparent)"></div>
+   <div style="position:relative;display:flex;justify-content:space-between;padding:22px 32px;font-size:14px"><b style="letter-spacing:.2em">GVM</b><span style="opacity:.7">Работы   Подход   Контакты</span></div>
+   <div style="position:relative;padding:20px 32px 0;max-width:640px">
+    <div style="font-family:'Commissioner';font-weight:200;font-variation-settings:'FLAR' 100;font-size:72px;line-height:.98;text-shadow:0 0 24px #FFB34799">Снимаем<br>то, что <span style="font-weight:800;color:#FFB347">светится</span></div>
+    <p style="margin-top:26px;font-size:16px;line-height:1.55;opacity:.85;max-width:430px">Имиджевые фильмы, свадьбы и истории людей. Работаем со светом на площадке, а не с фильтрами на монтаже.</p>
+    <div style="margin-top:28px;display:inline-block;padding:13px 22px;border-radius:40px;background:#F5EAD6;color:#0B0806;font-weight:600;box-shadow:0 0 30px #FFB34788">Смотреть шоурил</div>
+   </div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.4;opacity:.85"><div style="flex:1"><div class="cap">Движение</div>Экспозиция открывается и закрывается: переход через пересвет в белый 4–8 кадров. Засечки «вспыхивают» вместе с яркостью.</div><div style="flex:1"><div class="cap">Фирменный ход</div>Логотип не рендерится, а снимается фонарём/проектором через трафарет.</div><div style="flex:1"><div class="cap">Риск</div>Граница с пресетом light leak из CapCut. На мелких превью свет «съедается» сжатием.</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal"><div style="background:#0B0806;outline:1px solid #2A1D16">#0B0806</div><div style="background:#FF3B1F">FF3B1F</div><div style="background:#FFB347;color:#0B0806">FFB347</div><div style="background:#F5EAD6;color:#0B0806">F5EAD6</div><div style="background:#2A1D16">2A1D16</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL)</div><div class="big" style="font-family:'Commissioner';font-weight:800;font-variation-settings:'FLAR' 100;font-size:46px">Ёжик в свете</div><small>Commissioner, ось «вспышки засечек» FLAR 0–100</small><div style="font:400 17px 'Golos Text';margin-top:12px">Съешь же ещё этих мягких булок</div><small>Golos Text — текст</small></div>
+  <div class="refs"><div class="cap">Референсы</div>pentagram.com/work/186k-films<br>abduzeedo.com/node/89107 — 7MA Filmes<br>theinspirationgrid.com — Public Eye, 2026</div>
+ </aside>
+</section>
+
+<!-- ========== 4 СИГНАЛЬНОЕ ПОЛЕ ========== -->
+<section class="board" id="b4" style="background:#FFD000;color:#0B0B0B;font-family:'Onest'">
+ <div class="head"><div><div class="num">Направление 04</div><h1 style="font-family:'Unbounded';font-weight:900;font-size:76px">Сигнальное поле</h1></div>
+ <p>Один радикальный цвет — кадмиевый жёлтый — работает как рамка кадра. Узнаётся в ленте за 0,3 секунды. Видео живёт внутри поля, логотип — в рамке, не на изображении.</p></div>
+ <div>
+  <div class="reels" style="background:#FFD000;padding:16px 16px 70px">
+   <div style="position:relative;width:100%;height:100%;overflow:hidden;background:#141414"><canvas class="f" data-k="warm"></canvas><div class="ph">кадр клиента</div></div>
+   <div style="position:absolute;left:16px;bottom:16px;right:16px;display:flex;justify-content:space-between;align-items:center"><b style="font:900 30px 'Unbounded'">GVM</b><span style="font:700 12px 'Onest';text-align:right;line-height:1.2">БАРБЕРШОП<br>«ЛЕЗВИЕ»</span></div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#FFD000;border:2px solid #0B0B0B">
+   <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px"><b style="font:900 28px 'Unbounded'">GVM</b><span style="font-weight:500">Работы · Студия · Контакты</span></div>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:0 24px 24px;height:calc(100% - 64px)">
+    <div style="display:flex;flex-direction:column;justify-content:space-between"><div style="font:900 70px/1 'Unbounded'">Видео, которое замечают</div><div><p style="font-size:16px;line-height:1.5;max-width:360px">Каждый ролик GVM можно получить в фирменной рамке для портфолио — его узнают сразу.</p><div style="margin-top:16px;display:inline-block;background:#0B0B0B;color:#FFD000;padding:13px 22px;font-weight:700">Обсудить проект</div></div></div>
+    <div style="position:relative;overflow:hidden;background:#141414"><canvas class="f" data-k="cool"></canvas></div>
+   </div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.4"><div style="flex:1"><div class="cap" style="opacity:.7">Движение</div>Рамка «дышит»: сжимается на ударе, раскрывается на хуке. Склейки — шторка цвета поля.</div><div style="flex:1"><div class="cap" style="opacity:.7">Фирменный ход</div>GVM-рамка как продукт: клиентские ролики в портфолио выходят в жёлтом паспарту.</div><div style="flex:1"><div class="cap" style="opacity:.7">Риск</div>Цвет фиксируется навсегда. С тонами кожи на свадьбах жёлтый спорит — только вне изображения.</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap" style="opacity:.7">Палитра</div><div class="pal" style="outline:2px solid #0B0B0B"><div style="background:#FFD000">#FFD000</div><div style="background:#0B0B0B;color:#FFD000">0B0B0B</div><div style="background:#F2EFE8">F2EFE8</div><div style="background:#141414;color:#F2EFE8">141414</div><div style="background:#FF3B1F">FF3B1F</div></div></div>
+  <div class="type"><div class="cap" style="opacity:.7">Шрифты (кириллица, OFL)</div><div class="big" style="font:900 42px 'Unbounded'">Ёжик</div><small style="opacity:.8">Unbounded 900 — заголовки (Studio Koto × NaN)</small><div style="font:400 17px 'Onest';margin-top:12px">Съешь же ещё этих мягких булок</div><small style="opacity:.8">Onest — текст</small></div>
+  <div class="refs"><div class="cap" style="opacity:.7">Референсы</div>bpando.org — Church by Porto Rocha (2025)<br>portorocha.com/church<br>creativeboom.com/work/coffee-tv</div>
+ </aside>
+</section>
+
+<!-- ========== 5 ТИТР ========== -->
+<section class="board" id="b5" style="background:#EFE9DF;color:#141210;font-family:'Ysabeau Office'">
+ <div class="head"><div><div class="num">Направление 05</div><h1 style="font-family:'Cormorant';font-weight:300;font-style:italic;font-size:92px">Титр</h1></div>
+ <p>Авторское кино. Спокойная антиква в духе фестивальных титров, тишина и паузы. Для свадеб, историй людей, проповедей и клиник: дорого и бережно.</p></div>
+ <div>
+  <div class="reels" style="background:#141210">
+   <canvas class="f" data-k="dusk"></canvas><div class="ph">кадр клиента</div>
+   <div style="position:absolute;left:0;right:0;top:0;height:120px;background:#141210"></div><div style="position:absolute;left:0;right:0;bottom:0;height:150px;background:#141210"></div>
+   <div style="position:absolute;left:0;right:0;bottom:48px;text-align:center;color:#EFE9DF"><div style="font:300 italic 30px 'Cormorant'">Анна и Михаил</div><div style="font:400 10px 'Ysabeau Office';letter-spacing:.36em;margin-top:8px;color:#B7A98B">ОМСК · ОСЕНЬ 2026</div></div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#EFE9DF;border:1px solid #d8d0c2">
+   <div style="display:flex;justify-content:space-between;padding:24px 40px;font-size:14px;letter-spacing:.12em"><span style="font:600 italic 22px 'Cormorant';letter-spacing:0">Good Vibes Media</span><span>РАБОТЫ   О НАС   НАПИСАТЬ</span></div>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;padding:16px 40px">
+    <div><div style="font:300 52px/1.02 'Cormorant'">Истории, которые <i style="color:#6E1F1B">хочется</i> пересматривать</div><p style="margin-top:22px;font-size:16px;line-height:1.6;color:#5B5853;max-width:330px">Снимаем людей бережно: свадьбы, семейные и документальные фильмы, проповеди и истории клиник.</p><div style="margin-top:24px;font:600 13px 'Ysabeau Office';letter-spacing:.2em;border-bottom:1px solid #141210;display:inline-block;padding-bottom:4px">СМОТРЕТЬ ФИЛЬМЫ</div></div>
+    <div style="position:relative;aspect-ratio:2.39/1;overflow:hidden;align-self:center;background:#141210"><canvas class="f" data-k="dusk"></canvas></div>
+   </div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.45;color:#5B5853"><div style="flex:1"><div class="cap">Движение</div>Только длинные кроссфейды и трекинг букв (+20 → 0) за 1,5–2 с. Ничего не прыгает.</div><div style="flex:1"><div class="cap">Фирменный ход</div>«Подпись режиссёра»: каждая работа заканчивается рукописной строкой-посвящением героям и датой.</div><div style="flex:1"><div class="cap">Риск</div>Самое тихое направление: может теряться в рилсах, рекламщикам «не про энергию».</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal" style="outline:1px solid #d8d0c2"><div style="background:#EFE9DF">#EFE9DF</div><div style="background:#141210;color:#EFE9DF">141210</div><div style="background:#6E1F1B;color:#EFE9DF">6E1F1B</div><div style="background:#5B5853;color:#EFE9DF">5B5853</div><div style="background:#B7A98B">B7A98B</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL)</div><div class="big" style="font:300 italic 54px 'Cormorant'">Ёжик в тумане</div><small>Cormorant 300/600 + курсив — заголовки</small><div style="font:400 17px 'Ysabeau Office';margin-top:12px">Съешь же ещё этих мягких булок</div><small>Ysabeau Office — текст · альт.: Literata</small></div>
+  <div class="refs"><div class="cap">Референсы</div>the-brandidentity.com — Cottage M by Saint-Urbain<br>printmag.com — Cottage M identity<br>avid.wiki/Cottage_M</div>
+ </aside>
+</section>
+
+<!-- ========== 6 РАСТР ========== -->
+<section class="board" id="b6" style="background:#08090A;color:#F0F0EA;font-family:'Golos Text'">
+ <div class="head"><div><div class="num">Направление 06</div><h1 style="font-family:'Tiny5';font-size:96px;line-height:.9">РАСТР</h1></div>
+ <p>Пиксель — атом любого видео. Язык VFX и цифрового изображения без ностальгии по 8-биту. Люди не пикселизуются: растр живёт только в графике и переходах.</p></div>
+ <div>
+  <div class="reels" style="background:#08090A">
+   <canvas class="f" data-k="pix"></canvas><div class="ph">кадр клиента</div>
+   <div style="position:absolute;left:24px;right:24px;top:380px;font-family:'Tiny5';font-size:62px;line-height:.95">ДО<br>4K<br><span style="color:#2BD67B">ЗА 6</span><br><span style="color:#FFC23A">КАДРОВ</span></div>
+   <div style="position:absolute;right:20px;top:20px;width:10px;height:10px;background:#FF3B30"></div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#08090A;border:1px solid #2a2b2e">
+   <div style="display:flex;justify-content:space-between;padding:18px 26px;font:400 20px 'Tiny5'"><span>GVM<span style="color:#FF3B30">■</span></span><span style="font:400 14px 'Golos Text';opacity:.75">Работы · VFX · Контакты</span></div>
+   <div style="display:grid;grid-template-columns:1fr 1fr;height:calc(100% - 62px)">
+    <div style="padding:28px 26px"><div style="font:400 58px/.95 'Tiny5'">VFX, МОУШН <span style="color:#2BD67B">И</span> ВИДЕО</div><p style="margin-top:22px;font-size:16px;line-height:1.5;opacity:.85;max-width:340px">Графика, композитинг и эффекты для рекламы и клипов. Каждый пиксель на своём месте.</p><div style="margin-top:22px;display:inline-flex;gap:0"><span style="background:#FF3B30;width:14px"></span><span style="background:#2BD67B;width:14px"></span><span style="background:#FFC23A;width:14px"></span><span style="padding:12px 18px;border:1px solid #F0F0EA;font-weight:600">Шоурил</span></div></div>
+    <div style="position:relative;overflow:hidden"><canvas class="f" data-k="pixhalf"></canvas></div>
+   </div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.4;opacity:.85"><div style="flex:1"><div class="cap">Движение</div>Переход «разрешение растёт»: 8×8 → 4K за 6–10 кадров. Ось JITT — дрожание на акцентах.</div><div style="flex:1"><div class="cap">Фирменный ход</div>«Пиксель GVM» — квадрат 1×1 в углу каждого ролика, на финале рассыпается в логотип.</div><div style="flex:1"><div class="cap">Риск</div>Читается как «геймерское» или Y2K. Для церкви и клиник подходит слабо.</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal"><div style="background:#08090A;outline:1px solid #2a2b2e">#08090A</div><div style="background:#F0F0EA;color:#08090A">F0F0EA</div><div style="background:#FF3B30">FF3B30</div><div style="background:#2BD67B;color:#08090A">2BD67B</div><div style="background:#FFC23A;color:#08090A">FFC23A</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL)</div><div class="big" style="font:400 50px 'Tiny5'">ЁЖИК 4K</div><small>Tiny5 — заголовки (оси BLED/JITT/ROND) · альт.: Handjet</small><div style="font:400 17px 'Golos Text';margin-top:12px">Съешь же ещё этих мягких булок</div><small>Golos Text — текст</small></div>
+  <div class="refs"><div class="cap">Референсы</div>designboom.com — Eyeline (Netflix VFX) by Los York, 10.2025<br>designcompass.org — Eyeline branding<br>itsnicethat.com — Protein Studios</div>
+ </aside>
+</section>
+
+<!-- ========== 7 МОНТАЖНЫЙ СТОЛ ========== -->
+<section class="board" id="b7" style="background:#ECE4D4;color:#1A1A1A;font-family:'Golos Text'">
+ <div class="head"><div><div class="num">Направление 07</div><h1 style="font-family:'Dela Gothic One';font-size:78px">Монтажный стол</h1></div>
+ <p>Видно руки: вырезки, скотч, пометки маркером, сканы раскадровок. Противоядие от «AI-гладкости» — живой процесс вместо идеального рендера.</p></div>
+ <div>
+  <div class="reels" style="background:#ECE4D4">
+   <div style="position:absolute;left:24px;top:60px;width:300px;height:250px;transform:rotate(-3deg);background:#1A1A1A;box-shadow:4px 6px 0 #0002;overflow:hidden"><canvas class="f" data-k="warm"></canvas></div>
+   <div style="position:absolute;left:120px;top:44px;width:110px;height:30px;background:#F2C94Ccc;transform:rotate(4deg)"></div>
+   <div style="position:absolute;left:30px;top:340px;transform:rotate(2deg);font:400 40px/.95 'Dela Gothic One'">СОБРАНО<br>ВРУЧНУЮ</div>
+   <div style="position:absolute;left:30px;top:440px;font:700 28px 'Caveat';color:#D7392B;transform:rotate(-4deg)">← вот тут склейка!</div>
+   <div style="position:absolute;right:20px;bottom:40px;width:150px;height:110px;transform:rotate(5deg);background:#fff;padding:8px;box-shadow:3px 4px 0 #0002;font:500 20px/1.1 'Caveat'">кадр 14<br>крупно, руки<br><span style="color:#2AA6B8">+ звук ножниц</span></div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#ECE4D4;border:1px solid #cfc5b2">
+   <div style="display:flex;justify-content:space-between;padding:20px 30px;font-size:14px"><b style="font:400 24px 'Dela Gothic One'">GVM</b><span>Работы · Как мы работаем · Связаться</span></div>
+   <div style="position:relative;height:calc(100% - 66px)">
+    <div style="position:absolute;left:30px;top:16px;font:400 58px/1 'Dela Gothic One';max-width:330px">Кино делают руками</div>
+    <div style="position:absolute;left:34px;top:200px;font:600 26px 'Caveat';color:#D7392B;transform:rotate(-3deg)">а не нейросетью по промпту ;)</div>
+    <p style="position:absolute;left:30px;top:270px;max-width:380px;font-size:16px;line-height:1.5">Каждый кейс начинается со страницы настоящего режиссёрского блокнота GVM.</p>
+    <div style="position:absolute;right:30px;top:24px;width:330px;height:210px;transform:rotate(3deg);background:#1A1A1A;overflow:hidden;box-shadow:5px 7px 0 #0002"><canvas class="f" data-k="cool"></canvas></div>
+    <div style="position:absolute;right:250px;top:16px;width:120px;height:30px;background:#F2C94Ccc;transform:rotate(-6deg)"></div>
+    <div style="position:absolute;right:60px;top:270px;width:250px;height:150px;transform:rotate(-2deg);background:#fff;padding:12px;box-shadow:4px 5px 0 #0002;font:500 22px/1.15 'Caveat'">Сц. 3 — общий план<br>Сц. 4 — <span style="color:#D7392B">лицо, свет из окна</span><br>Сц. 5 — логотип</div>
+    <div style="position:absolute;left:30px;bottom:30px;background:#1A1A1A;color:#ECE4D4;padding:13px 22px;font-weight:600">Начать проект</div>
+   </div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.4"><div style="flex:1"><div class="cap">Движение</div>Stop-motion 12 к/с («на двойках»). Вырезки въезжают с микроповоротом ±2°.</div><div style="flex:1"><div class="cap">Фирменный ход</div>Каждый кейс открывается сканом страницы режиссёрского блокнота GVM.</div><div style="flex:1"><div class="cap">Риск</div>Трудоёмко — нужен ручной процесс. «Хай-тек» клиентам может показаться несерьёзно.</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal" style="outline:1px solid #cfc5b2"><div style="background:#ECE4D4">#ECE4D4</div><div style="background:#1A1A1A;color:#ECE4D4">1A1A1A</div><div style="background:#F2C94C">F2C94C</div><div style="background:#D7392B;color:#fff">D7392B</div><div style="background:#2AA6B8">2AA6B8</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL)</div><div class="big" style="font:400 44px 'Dela Gothic One'">Ёжик</div><small>Dela Gothic One — заголовки</small><div style="font:700 30px 'Caveat';margin-top:8px;color:#D7392B">пометка маркером</div><small>Caveat — рукописные пометки</small><div style="font:400 17px 'Golos Text';margin-top:8px">Съешь же ещё этих мягких булок</div><small>Golos Text — текст</small></div>
+  <div class="refs"><div class="cap">Референсы</div>creativeboom.com/news/elevenfiftyfive — Studio Moross<br>100archive.com — Brown Bag Films brand<br>abduzeedo.com — Broaden (letterpress)</div>
+ </aside>
+</section>
+
+<!-- ========== 8 НОВЫЙ АВАНГАРД ========== -->
+<section class="board" id="b8" style="background:#F4F2EE;color:#111;font-family:'Onest'">
+ <div class="head"><div><div class="num">Направление 08</div><h1 style="font-family:'Unbounded';font-weight:900;font-size:70px">Новый авангард</h1></div>
+ <p>Сибирский конструктив: диагонали, плакатная геометрия, кириллица как графика. Свой русский код, которого нет у западных студий. Угол всей графики — 55°, широта Омска.</p></div>
+ <div>
+  <div class="reels" style="background:#F4F2EE">
+   <div style="position:absolute;left:-60px;top:110px;width:520px;height:250px;background:#E3241B;transform:rotate(-35deg)"></div>
+   <div style="position:absolute;left:150px;top:300px;width:260px;height:260px;background:#111;clip-path:polygon(0 100%,100% 0,100% 100%);overflow:hidden"><canvas class="f" data-k="warm"></canvas></div>
+   <div style="position:absolute;left:22px;top:40px;font:900 64px/.9 'Unbounded'">55°</div>
+   <div style="position:absolute;left:22px;bottom:110px;font:900 40px/.95 'Unbounded';transform:rotate(-35deg);transform-origin:left bottom;color:#111;white-space:nowrap">ОМСК СНИМАЕТ</div>
+   <div style="position:absolute;left:22px;bottom:24px;font:500 11px 'Onest';letter-spacing:.14em">GVM · ВИДЕОПРОДАКШН</div>
+  </div>
+ </div>
+ <div>
+  <div class="web" style="background:#F4F2EE;border:1px solid #d9d6cf">
+   <div style="position:relative;z-index:2;display:flex;justify-content:space-between;padding:18px 28px;font-weight:500;font-size:14px"><b style="font:900 24px 'Unbounded'">GVM</b><span>Работы · Студия · Контакты</span></div>
+   <div style="position:absolute;right:-160px;top:150px;width:560px;height:150px;background:#E3241B;transform:rotate(-35deg)"></div>
+   <div style="position:absolute;right:120px;top:210px;width:300px;height:300px;background:#111;clip-path:polygon(0 100%,100% 0,100% 100%);overflow:hidden"><canvas class="f" data-k="cool"></canvas></div>
+   <div style="position:absolute;right:30px;top:90px;width:120px;height:120px;border-radius:50%;background:#D9A441"></div>
+   <div style="position:relative;padding:30px 28px;max-width:560px"><div style="font:900 68px/.98 'Unbounded'">Смелое кино из Сибири</div><p style="margin-top:22px;font-size:16px;line-height:1.5;max-width:330px;color:#333">Рекламные и имиджевые фильмы с характером. Снимаем там, где другие не решаются.</p><div style="margin-top:22px;display:inline-block;background:#111;color:#F4F2EE;padding:13px 22px;font-weight:700">Обсудить проект</div></div>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:22px;font-size:13px;line-height:1.4"><div style="flex:1"><div class="cap">Движение</div>Блоки въезжают по диагонали с упругой кривой, буквы собираются из фигур.</div><div style="flex:1"><div class="cap">Фирменный ход</div>Угол 55° (широта Омска) — единый наклон всей графики GVM.</div><div style="flex:1"><div class="cap">Риск</div>Ассоциации с советским плакатом. Свежих кейсов 2025–26 почти нет — направление менее «трендовое».</div></div>
+ </div>
+ <aside class="side">
+  <div><div class="cap">Палитра</div><div class="pal" style="outline:1px solid #d9d6cf"><div style="background:#F4F2EE">#F4F2EE</div><div style="background:#111;color:#F4F2EE">111111</div><div style="background:#E3241B;color:#fff">E3241B</div><div style="background:#D9A441">D9A441</div><div style="background:#8C8A85">8C8A85</div></div></div>
+  <div class="type"><div class="cap">Шрифты (кириллица, OFL)</div><div class="big" style="font:900 44px 'Unbounded'">Ёжик</div><small>Unbounded 900 — заголовки · альт.: Rubik Mono One</small><div style="font:400 17px 'Onest';margin-top:12px">Съешь же ещё этих мягких булок</div><small>Onest — текст</small></div>
+  <div class="refs"><div class="cap">Референсы (слабое место)</div>dezeen.com — Ростуризм, супрематизм (2018)<br>creativeboom.com/inspiration/iya-studio<br>fonts.google.com/specimen/Unbounded/about</div>
+ </aside>
+</section>
+
+<script>
+// Procedural stand-in footage: soft light shapes + grain, so mockups read as "a frame" without real client photos.
+const K={warm:['#3b2418','#b0643a','#f0c27a'],cool:['#0f1a24','#3c5a6b','#c9d6d8'],leak:['#140c08','#ff3b1f','#ffb347'],dusk:['#1d1714','#6b4a3a','#d9b48f'],pix:['#0b0c0e','#2b3a44','#d0c7b0'],pixhalf:['#0b0c0e','#3b4a3f','#e0d0a8']};
+function rnd(s){return()=>{s=Math.sin(s)*10000;return s-Math.floor(s)}}
+document.querySelectorAll('canvas.f').forEach((c,i)=>{const r=c.getBoundingClientRect();c.width=Math.max(10,r.width);c.height=Math.max(10,r.height);const x=c.getContext('2d'),p=K[c.dataset.k],R=rnd(i+7);
+ x.fillStyle=p[0];x.fillRect(0,0,c.width,c.height);
+ for(let k=0;k<7;k++){const gx=R()*c.width,gy=R()*c.height,gr=(.3+R()*.7)*Math.max(c.width,c.height);const g=x.createRadialGradient(gx,gy,0,gx,gy,gr);g.addColorStop(0,p[1+(k%2)]+(k%2?'aa':'77'));g.addColorStop(1,p[0]+'00');x.fillStyle=g;x.fillRect(0,0,c.width,c.height)}
+ // a figure silhouette for scale
+ x.fillStyle=p[0]+'cc';const cx=c.width*(.35+R()*.3),cy=c.height*.62,s=Math.min(c.width,c.height)*.18;x.beginPath();x.arc(cx,cy-s*1.3,s*.55,0,7);x.fill();x.beginPath();x.ellipse(cx,cy+s*.9,s*1.1,s*1.6,0,0,7);x.fill();
+ if(c.dataset.k.startsWith('pix')){const n=c.dataset.k==='pix'?18:12;const img=x.getImageData(0,0,c.width,c.height);for(let yy=0;yy<c.height;yy+=n)for(let xx=0;xx<c.width;xx+=n){const o=((yy*c.width)+xx)*4;x.fillStyle=`rgb(${img.data[o]},${img.data[o+1]},${img.data[o+2]})`;x.fillRect(xx,yy,n-1,n-1)}}
+ const d=x.getImageData(0,0,c.width,c.height);for(let j=0;j<d.data.length;j+=4){const n=(R()-.5)*22;d.data[j]+=n;d.data[j+1]+=n;d.data[j+2]+=n}x.putImageData(d,0,0)});
+</script>
+</body></html>
