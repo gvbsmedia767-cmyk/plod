@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts.css">
+<style>
+html,body{margin:0;background:transparent;overflow:hidden}
+#s{position:relative;overflow:hidden}
+.cap{position:absolute;left:50%;transform:translateX(-50%);background:rgba(246,240,229,.94);color:#2b231c;border-radius:30px;padding:22px 34px;font:800 56px/1.12 Onest;text-align:center;box-shadow:0 14px 40px rgba(40,25,10,.25);max-width:92%;white-space:nowrap}
+.cap b{color:#d2602a;font-weight:800}
+.note{position:absolute;font:700 74px/1 Caveat;color:#fff8ec;text-shadow:0 3px 14px rgba(40,20,5,.55);white-space:nowrap}
+.note svg{position:absolute;overflow:visible}
+.chip{position:absolute;background:#f6f0e5;border-radius:26px;padding:20px 28px 22px;box-shadow:0 18px 40px rgba(40,25,10,.3);color:#2b231c}
+.chip .n{font:900 76px/1 Unbounded;letter-spacing:-.02em;color:#d2602a}
+.chip .t{font:500 34px/1.1 Onest;margin-top:8px}
+.label{position:absolute;left:50%;top:120px;transform:translateX(-50%);background:rgba(246,240,229,.9);border-radius:999px;padding:14px 28px;font:500 30px Onest;color:#2b231c;letter-spacing:.06em;white-space:nowrap}
+.end{position:absolute;inset:0;background:#efe6d6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#2b231c}
+.end h1{font:800 150px/1 Onest;margin:0;letter-spacing:-.02em}
+.end .h{font:700 92px/1 Caveat;color:#d2602a;margin-top:26px}
+.end .l{font:500 40px/1.5 Onest;margin-top:60px}
+.end .ph{margin-top:28px;font:800 64px Onest;border:3px dashed #d2602a;border-radius:24px;padding:16px 34px;color:#d2602a}
+.end .by{position:absolute;bottom:90px;font:500 26px Onest;letter-spacing:.1em;opacity:.55}
+.flash{position:absolute;inset:0;background:radial-gradient(70% 55% at 75% 25%,rgba(255,214,160,.95),rgba(255,170,90,.35) 45%,rgba(255,150,60,0) 75%);mix-blend-mode:normal}
+</style></head><body><div id="s"></div>
+<script>
+// «Тёплый альбом» overlay: word captions on paper cards, handwritten notes, fact chips, warm light flashes on cuts, end card.
+// Params: width,height,timeline{segments,words,total}, label{text,from,to}, notes[{at,to,text,x,y,rot,doodle}], chips[{at,to,n,t,x,y,rot}], end{at,title,hand,lines[],phone,by}, captionY
+const P=Object.assign({width:1080,height:1920,captionY:1440},window.GVM_PARAMS||{});
+const S=document.getElementById('s');S.style.width=P.width+'px';S.style.height=P.height+'px';
+const cl=x=>Math.max(0,Math.min(1,x)),eo=x=>1-Math.pow(1-cl(x),3),pop=x=>{x=cl(x);return x<1?1+2.2*Math.pow(x-1,3)+1.2*Math.pow(x-1,2):1};
+// group words into caption chunks: break on punctuation or after 3 words
+const W=P.timeline.words,chunks=[];let cur=[];
+W.forEach((w,i)=>{cur.push(w);const brk=/[.,!?…]$/.test(w.w)||cur.length>=3||(W[i+1]&&W[i+1].seg!==w.seg);if(brk){chunks.push(cur);cur=[]}});if(cur.length)chunks.push(cur);
+const doodles={leaf:'<svg width="90" height="90" style="left:-100px;top:-10px"><path d="M10 80 C10 30 50 8 85 8 C85 50 60 80 10 80 Z M10 80 L60 30" fill="none" stroke="#fff8ec" stroke-width="5" stroke-linecap="round"/></svg>',
+ wave:'<svg width="300" height="40" style="left:0;top:86px"><path d="M5 20 Q40 0 75 20 T145 20 T215 20 T290 20" fill="none" stroke="#fff8ec" stroke-width="5" stroke-linecap="round"/></svg>',
+ check:'<svg width="70" height="60" style="left:-80px;top:4px"><path d="M8 30 L28 50 L64 6" fill="none" stroke="#fff8ec" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ underline:'<svg width="520" height="30" style="left:0;top:84px"><path d="M5 18 C120 4 300 28 515 10" fill="none" stroke="#d2602a" stroke-width="7" stroke-linecap="round"/></svg>'};
+window.ready=document.fonts.ready.then(()=>Promise.all(['800 60px Onest','700 74px Caveat','900 76px Unbounded','500 34px Onest'].map(f=>document.fonts.load(f,'АБВабв0123'))));
+window.render=t=>{let h='';
+ if(P.label&&t>=P.label.from&&t<P.label.to){const a=eo((t-P.label.from)/.5)*cl((P.label.to-t)/.4);h+=`<div class="label" style="opacity:${a};top:${120-(1-a)*20}px">${P.label.text}</div>`}
+ // warm flash across each cut
+ P.timeline.segments.slice(1).forEach(s=>{const d=Math.abs(t-s.start);if(d<.32)h+=`<div class="flash" style="opacity:${(1-d/.32)*.85}"></div>`});
+ (P.notes||[]).forEach(n=>{if(t<n.at||t>n.to)return;const a=eo((t-n.at)/.35)*cl((n.to-t)/.3);const len=n.text.length,shown=Math.ceil(len*cl((t-n.at)/.5));
+  h+=`<div class="note" style="left:${n.x}px;top:${n.y}px;opacity:${a};transform:rotate(${n.rot||0}deg) translateY(${(1-a)*24}px)">${n.text.slice(0,shown)}${n.doodle&&t-n.at>.4?doodles[n.doodle]:''}</div>`});
+ (P.chips||[]).forEach(c=>{if(t<c.at||t>c.to)return;const s=pop((t-c.at)/.45),a=cl((t-c.at)/.15)*cl((c.to-t)/.3);
+  h+=`<div class="chip" style="left:${c.x}px;top:${c.y}px;opacity:${a};transform:rotate(${c.rot||0}deg) scale(${s})"><div class="n">${c.n}</div><div class="t">${c.t}</div></div>`});
+ if(!P.end||t<P.end.at){const ch=chunks.find(c=>t>=c[0].s-.05&&t<=c[c.length-1].e+.25);
+  if(ch){const a=eo((t-ch[0].s+.05)/.12);h+=`<div class="cap" style="top:${P.captionY+(1-a)*14}px;opacity:${a}">${ch.map(w=>t>=w.s&&t<=w.e+.08?`<b>${w.w}</b>`:w.w).join(' ')}</div>`}}
+ if(P.end&&t>=P.end.at){const k=t-P.end.at,a=eo(k/.45),u=eo((k-.25)/.5),v=eo((k-.6)/.5);
+  h+=`<div class="end" style="opacity:${a}"><h1 style="transform:translateY(${(1-a)*30}px)">${P.end.title}</h1><div class="h" style="opacity:${u}">${P.end.hand}</div><div class="l" style="opacity:${v}">${P.end.lines.join('<br>')}</div><div class="ph" style="opacity:${v}">${P.end.phone}</div><div class="by">${P.end.by||''}</div></div>`}
+ S.innerHTML=h};
+</script></body></html>
