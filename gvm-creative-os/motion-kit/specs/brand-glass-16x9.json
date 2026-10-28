@@ -1,0 +1,35 @@
+{
+ "template": "glass",
+ "width": 1920,
+ "height": 1080,
+ "duration": 6.5,
+ "params": {
+  "scenes": [
+   {
+    "at": 0,
+    "lines": [
+     {
+      "text": "GVM",
+      "size": 0.28,
+      "y": 0.52
+     }
+    ]
+   },
+   {
+    "at": 3.2,
+    "lines": [
+     {
+      "text": "СВЕТ",
+      "size": 0.18,
+      "y": 0.34
+     },
+     {
+      "text": "МАТЕРИАЛ",
+      "size": 0.117,
+      "y": 0.67
+     }
+    ]
+   }
+  ]
+ }
+}

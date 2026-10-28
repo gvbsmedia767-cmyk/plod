@@ -1,0 +1,33 @@
+{
+ "template": "swarm",
+ "width": 1080,
+ "height": 1920,
+ "duration": 6.5,
+ "params": {
+  "first": [
+   {
+    "text": "СНИМАЕМ",
+    "size": 0.17,
+    "y": 0.42
+   },
+   {
+    "text": "СВЕТОМ",
+    "size": 0.19,
+    "y": 0.54
+   }
+  ],
+  "second": [
+   {
+    "text": "GVM",
+    "size": 0.42,
+    "y": 0.47
+   },
+   {
+    "text": "GOOD VIBES MEDIA",
+    "size": 0.06,
+    "y": 0.62,
+    "weight": 500
+   }
+  ]
+ }
+}

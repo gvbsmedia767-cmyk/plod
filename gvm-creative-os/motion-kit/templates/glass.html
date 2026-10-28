@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts.css">
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style></head><body>
+<canvas id="gl"></canvas>
+<script>
+// «Жидкое стекло»: words become liquid glass refracting a moving film-light field.
+// Params (window.GVM_PARAMS): width, height, scenes:[{at, lines:[{text, size, y}]}]
+//   size — cap height as a fraction of frame width; y — line centre as a fraction of frame height.
+const P=Object.assign({width:1280,height:720,scenes:[{at:0,lines:[{text:'GVM',size:.28,y:.5}]}]},window.GVM_PARAMS||{});
+const W=P.width,H=P.height,cv=document.getElementById('gl');cv.width=W;cv.height=H;
+const gl=cv.getContext('webgl2',{preserveDrawingBuffer:true});
+function textTex(lines){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,W,H);x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';
+ for(const l of lines){let px=l.size*W;x.font=`900 ${px}px Unbounded`;const m=x.measureText(l.text).width;if(m>W*.9){px*=W*.9/m;x.font=`900 ${px}px Unbounded`}x.fillText(l.text,W/2,l.y*H)}return c}
+const vs=`#version 300 es
+in vec2 p;out vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0,1);}`;
+const fs=`#version 300 es
+precision highp float;in vec2 uv;out vec4 o;uniform sampler2D T;uniform float t;uniform vec2 R;
+float h(vec2 q){float a=0.,ws=0.;vec2 st=vec2(3.3*R.x/1280.)/R;for(int i=-5;i<=5;i++)for(int j=-5;j<=5;j++){float w=exp(-float(i*i+j*j)/12.);a+=texture(T,q+vec2(i,j)*st).r*w;ws+=w;}return a/ws;}
+float n(vec2 p){return sin(p.x*3.1+t*1.3)*sin(p.y*2.7-t*1.1)+.5*sin(p.x*7.+p.y*5.-t*2.);}
+vec3 field(vec2 p){
+ float a=sin(p.x*4.+t*.9+sin(p.y*3.-t*.7)*1.6);float b=sin(p.y*6.-t*1.4+cos(p.x*5.+t)*1.2);
+ vec3 c=mix(vec3(.02,.02,.05),vec3(1.,.36,.12),smoothstep(.55,1.,a));c+=vec3(.15,.45,1.)*smoothstep(.75,1.,b)*.9;
+ c+=vec3(1.,.85,.6)*pow(max(0.,1.-length(p-vec2(.5+.35*sin(t*.6),.5+.2*cos(t*.8)))*2.2),3.)*1.4;return c;}
+void main(){vec2 q=vec2(uv.x,1.-uv.y);float w=.004*n(q*3.);vec2 qq=q+vec2(w,-w);float k=2.6*R.x/1280.;vec2 ex=vec2(k/R.x,0.),ey=vec2(0.,k/R.y);
+ float c=h(qq),dx=h(qq+ex)-h(qq-ex),dy=h(qq+ey)-h(qq-ey);
+ vec2 nrm=vec2(dx,dy)*7.;float edge=smoothstep(.02,.5,c);
+ vec3 bg=field(q)*.35;
+ vec3 r=vec3(field(q+nrm*.9).r,field(q+nrm*1.).g,field(q+nrm*1.12).b);
+ float spec=pow(max(0.,dot(normalize(vec3(nrm,1.)),normalize(vec3(.4*sin(t),-.6,1.)))),40.)*2.;
+ vec3 col=mix(bg,r*1.25+spec,edge);col+=vec3(1.)*smoothstep(.45,.5,c)*smoothstep(.55,.5,c)*.25;
+ float g=fract(sin(dot(q*R+t,vec2(12.9898,78.233)))*43758.5453);col+=(g-.5)*.05;col*=1.-.55*pow(length(q-.5)*1.25,2.);
+ o=vec4(pow(col,vec3(.9)),1.);}`;
+function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+const tex=gl.createTexture();let cur=-1,texs=[];
+function setText(c){gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
+window.ready=(async()=>{const all=P.scenes.flatMap(s=>s.lines.map(l=>l.text)).join('');await document.fonts.load('900 100px Unbounded',all);texs=P.scenes.map(s=>textTex(s.lines))})();
+window.render=t=>{let k=0;P.scenes.forEach((s,i)=>{if(t>=s.at)k=i});if(k!==cur){setText(texs[k]);cur=k}gl.viewport(0,0,W,H);gl.uniform1f(gl.getUniformLocation(pr,'t'),t);gl.uniform2f(gl.getUniformLocation(pr,'R'),W,H);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)};
+</script></body></html>

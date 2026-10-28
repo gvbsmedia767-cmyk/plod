@@ -1,0 +1,35 @@
+{
+ "template": "glass",
+ "width": 1080,
+ "height": 1920,
+ "duration": 5,
+ "params": {
+  "scenes": [
+   {
+    "at": 0,
+    "lines": [
+     {
+      "text": "ТВОЯ",
+      "size": 0.26,
+      "y": 0.38
+     },
+     {
+      "text": "ИСТОРИЯ",
+      "size": 0.17,
+      "y": 0.55
+     }
+    ]
+   },
+   {
+    "at": 2.6,
+    "lines": [
+     {
+      "text": "GVM",
+      "size": 0.42,
+      "y": 0.48
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "gvm-motion-kit",
+  "private": true,
+  "version": "1.0.0",
+  "description": "GVM brand motion templates (WebGL) rendered to MP4 from a JSON spec",
+  "scripts": {
+    "render": "node render.js"
+  },
+  "dependencies": {
+    "three": "0.170.0"
+  }
+}

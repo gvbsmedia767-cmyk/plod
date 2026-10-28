@@ -1,0 +1,56 @@
+{
+ "template": "flythrough",
+ "width": 1080,
+ "height": 1920,
+ "duration": 7,
+ "params": {
+  "works": [
+   {
+    "img": "../assets/works/kit-clinic-poster.jpg",
+    "label": "КЛИНИКА · ИМИДЖЕВЫЙ ФИЛЬМ"
+   },
+   {
+    "img": "../assets/works/bath-way-poster.jpg",
+    "label": "«ЧУГУН ХОЛЛ» · REELS"
+   },
+   {
+    "img": "../assets/works/portfolio-main-001-arwad-light-commercial-poster.jpg",
+    "label": "ARWAD · РЕКЛАМА"
+   },
+   {
+    "img": "../assets/works/dance-performance-poster.jpg",
+    "label": "ТАНЕЦ · ПЕРФОРМАНС"
+   },
+   {
+    "img": "../assets/works/wedding-vows-poster.jpg",
+    "label": "СВАДЬБА · КЛЯТВЫ"
+   },
+   {
+    "img": "../assets/works/barber.jpg",
+    "label": "БАРБЕРШОП · CINEMATIC"
+   },
+   {
+    "img": "../assets/works/directing-showreel-poster.jpg",
+    "label": "РЕЖИССУРА · ШОУРИЛ"
+   },
+   {
+    "img": "../assets/works/elena-ai-expert-2026-poster.jpg",
+    "label": "ЭКСПЕРТ · REELS 2026"
+   },
+   {
+    "img": "../assets/works/gvbs-hero-desktop-poster.jpg",
+    "label": "ОБЪЕКТ · ДРОН"
+   },
+   {
+    "img": "../assets/works/about-gvbs-poster.jpg",
+    "label": "О СТУДИИ"
+   }
+  ],
+  "words": [
+   "ОДИН",
+   "КАДР",
+   "МЕНЯЕТ",
+   "ВСЁ."
+  ]
+ }
+}
