@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..800&family=Unbounded:wght@900&display=swap">
+<style>html,body{margin:0;background:#ece8df;overflow:hidden}canvas{display:block}</style></head><body>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="module">
+// Concept C — «Монтажное пространство»: the camera flies through the studio's work hung in space like a timeline; ends on the real GVM logo.
+import * as THREE from 'three';
+const W=1280,H=720,r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});r.setSize(W,H);r.setPixelRatio(1);document.body.appendChild(r.domElement);
+const scene=new THREE.Scene();scene.background=new THREE.Color('#ece8df');scene.fog=new THREE.Fog('#ece8df',6,26);
+const cam=new THREE.PerspectiveCamera(50,W/H,.1,100);
+const pal=[['#2a160e','#c96a35','#f4c58a'],['#0e1a24','#3c6b85','#cfe0e6'],['#170d12','#8a2b3b','#f0a37f'],['#101410','#4f6b3c','#e4d8a3'],['#120f1c','#5a3ea8','#ffb38a'],['#1b1310','#a3542a','#ffe2b8']];
+const labels=['КЛИНИКА «ВЕГА» · 9:16','СВАДЬБА · АННА И МИХАИЛ','БАРБЕРШОП «ЛЕЗВИЕ»','ПРОПОВЕДЬ · ИН 3:16','СТРОЙКА · ДРОН','ФИЛЬМ · БЕЛАРУСЬ 2026'];
+function frameTex(i){const c=document.createElement('canvas');c.width=640;c.height=360;const x=c.getContext('2d'),p=pal[i%pal.length];
+ const g=x.createLinearGradient(0,0,640,360);g.addColorStop(0,p[0]);g.addColorStop(1,p[1]);x.fillStyle=g;x.fillRect(0,0,640,360);
+ for(let k=0;k<5;k++){const rx=Math.random()*640,ry=Math.random()*360,rg=x.createRadialGradient(rx,ry,0,rx,ry,200+Math.random()*200);rg.addColorStop(0,p[2]+'aa');rg.addColorStop(1,p[2]+'00');x.fillStyle=rg;x.fillRect(0,0,640,360)}
+ x.fillStyle=p[0]+'dd';x.beginPath();x.arc(320,170,46,0,7);x.fill();x.beginPath();x.ellipse(320,330,90,120,0,0,7);x.fill();
+ const d=x.getImageData(0,0,640,360);for(let j=0;j<d.data.length;j+=4){const n=(Math.random()-.5)*26;d.data[j]+=n;d.data[j+1]+=n;d.data[j+2]+=n}x.putImageData(d,0,0);
+ x.font='500 15px "Martian Mono"';x.fillStyle='#ece8df';x.fillText(labels[i%labels.length],18,340);x.fillText('TC 0'+(i%9)+':1'+i%6+':0'+(i*7%9)+':12',470,26);
+ const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function label(text,size,color,font){const c=document.createElement('canvas');c.width=2048;c.height=512;const x=c.getContext('2d');x.fillStyle=color;x.font=`${font} ${size}px ${font.includes('900')?'Unbounded':'"Martian Mono"'}`;x.textBaseline='middle';x.fillText(text,10,256);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+const items=[];
+window.ready=(async()=>{await document.fonts.ready;await document.fonts.load('900 100px Unbounded','ВСЁ');await document.fonts.load('500 20px "Martian Mono"','ТC');
+ for(let i=0;i<22;i++){const m=new THREE.Mesh(new THREE.PlaneGeometry(3.2,1.8),new THREE.MeshBasicMaterial({map:frameTex(i)}));const z=-i*2.3,side=i%2?1:-1;
+  m.position.set(side*(1.6+(i%3)*.5),((i*37)%5-2)*.55,z);m.rotation.y=-side*.35;scene.add(m);items.push(m)}
+ const words=[['ОДИН',-6],['КАДР',-14],['МЕНЯЕТ',-22],['ВСЁ.',-30]];
+ words.forEach(([w,z],k)=>{const s=new THREE.Mesh(new THREE.PlaneGeometry(8,2),new THREE.MeshBasicMaterial({map:label(w,300,k==3?'#ff3b1f':'#111111','900'),transparent:true,depthWrite:false}));s.position.set(-2.2,0,z);scene.add(s)});
+ // the real GVM logo at the end of the tunnel
+ const img=new Image();img.src='gvm-logo-night.svg';await img.decode();const c=document.createElement('canvas');c.width=1600;c.height=1120;c.getContext('2d').drawImage(img,0,0,1600,1120);
+ const lt=new THREE.CanvasTexture(c);lt.colorSpace=THREE.SRGBColorSpace;const L=new THREE.Mesh(new THREE.PlaneGeometry(4.6,3.22),new THREE.MeshBasicMaterial({map:lt,transparent:true}));L.position.set(0,0,-40);scene.add(L);
+ const tc=new THREE.Mesh(new THREE.PlaneGeometry(8,2),new THREE.MeshBasicMaterial({map:label('OMSK 55°N · GVBSMEDIA.RU',90,'#111111','500'),transparent:true}));tc.position.set(-1.6,-2.4,-40);tc.scale.set(.5,.5,.5);scene.add(tc)})();
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+window.render=t=>{const p=ease(Math.min(1,t/6));const z=4-p*41;cam.position.set(Math.sin(t*.9)*.6*(1-p),Math.cos(t*.7)*.3*(1-p),z);cam.lookAt(Math.sin(t*.5)*.4*(1-p),0,z-6);cam.rotation.z=Math.sin(t*.8)*.05*(1-p);r.render(scene,cam)};
+</script></body></html>

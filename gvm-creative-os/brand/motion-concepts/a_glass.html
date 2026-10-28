@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Onest:wght@500&display=swap">
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style></head><body>
+<canvas id="gl" width="1280" height="720"></canvas>
+<script>
+// Concept A — «Жидкое стекло»: the wordmark is a slab of liquid glass that refracts a moving light field.
+const W=1280,H=720,gl=document.getElementById('gl').getContext('webgl2',{preserveDrawingBuffer:true});
+function textTex(lines){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#000';x.fillRect(0,0,W,H);x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';
+ lines.forEach(([t,f,y])=>{x.font=f;x.fillText(t,W/2,y)});return c}
+const vs=`#version 300 es
+in vec2 p;out vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0,1);}`;
+const fs=`#version 300 es
+precision highp float;in vec2 uv;out vec4 o;uniform sampler2D T;uniform float t;uniform vec2 R;
+float h(vec2 q){float a=0.;for(int i=-3;i<=3;i++)for(int j=-3;j<=3;j++)a+=texture(T,q+vec2(i,j)*0.0042).r;return a/49.;}
+float n(vec2 p){return sin(p.x*3.1+t*1.3)*sin(p.y*2.7-t*1.1)+.5*sin(p.x*7.+p.y*5.-t*2.);}
+vec3 field(vec2 p){ // moving film-light: warm/cool bands like light leaking through a lens
+ float a=sin(p.x*4.+t*.9+sin(p.y*3.-t*.7)*1.6);float b=sin(p.y*6.-t*1.4+cos(p.x*5.+t)*1.2);
+ vec3 c=mix(vec3(.02,.02,.05),vec3(1.,.36,.12),smoothstep(.55,1.,a));c+=vec3(.15,.45,1.)*smoothstep(.75,1.,b)*.9;
+ c+=vec3(1.,.85,.6)*pow(max(0.,1.-length(p-vec2(.5+.35*sin(t*.6),.5+.2*cos(t*.8)))*2.2),3.)*1.4;return c;}
+void main(){vec2 q=vec2(uv.x,1.-uv.y);float w=.004*n(q*3.);vec2 qq=q+vec2(w,-w);
+ float c=h(qq),dx=h(qq+vec2(.002,0))-h(qq-vec2(.002,0)),dy=h(qq+vec2(0,.002))-h(qq-vec2(0,.002));
+ vec2 nrm=vec2(dx,dy)*9.;float edge=smoothstep(.02,.5,c);
+ vec3 bg=field(q)*.35;
+ vec3 r=vec3(field(q+nrm*.9).r,field(q+nrm*1.).g,field(q+nrm*1.12).b); // chromatic dispersion
+ float spec=pow(max(0.,dot(normalize(vec3(nrm,1.)),normalize(vec3(.4*sin(t),-.6,1.)))),40.)*2.;
+ vec3 col=mix(bg,r*1.25+spec,edge);col+=vec3(1.)*smoothstep(.45,.5,c)*smoothstep(.55,.5,c)*.25;
+ float g=fract(sin(dot(q*R+t,vec2(12.9898,78.233)))*43758.5453);col+=(g-.5)*.05;col*=1.-.55*pow(length(q-.5)*1.25,2.);
+ o=vec4(pow(col,vec3(.9)),1.);}`;
+function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(x);return x}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+const tex=gl.createTexture();let cur=null;
+function setText(c){gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
+let T1,T2;
+window.ready=document.fonts.ready.then(async()=>{await document.fonts.load('900 260px Unbounded','GVMСВЕТ');
+ T1=textTex([['GVM',"900 360px Unbounded",370]]);T2=textTex([['СВЕТ',"900 250px Unbounded",300],['ЭТО МАТЕРИАЛ',"900 92px Unbounded",500]]);});
+window.render=t=>{const c=t<3.2?T1:T2;if(c!==cur){setText(c);cur=c}gl.uniform1f(gl.getUniformLocation(pr,'t'),t);gl.uniform2f(gl.getUniformLocation(pr,'R'),W,H);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)};
+</script></body></html>

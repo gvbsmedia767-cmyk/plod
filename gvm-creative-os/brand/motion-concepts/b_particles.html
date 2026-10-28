@@ -1,0 +1,36 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@900&family=Onest:wght@500&display=swap">
+<style>html,body{margin:0;background:#050506;overflow:hidden}canvas{display:block}</style></head><body>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="module">
+// Concept B — «Световой рой»: 60k light particles fly through 3D and lock into words on the beat.
+import * as THREE from 'three';
+const W=1280,H=720,N=60000;
+const r=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});r.setSize(W,H);r.setPixelRatio(1);document.body.appendChild(r.domElement);
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,W/H,.1,100);
+function sample(lines){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';lines.forEach(([t,f,y])=>{x.font=f;x.fillText(t,W/2,y)});
+ const d=x.getImageData(0,0,W,H).data,pts=[];for(let y=0;y<H;y+=2)for(let k=0;k<W;k+=2)if(d[(y*W+k)*4]>128)pts.push([(k-W/2)/W*10.5,-(y-H/2)/W*10.5,0]);
+ const out=new Float32Array(N*3);for(let i=0;i<N;i++){const p=pts[(i*7919)%pts.length];out[i*3]=p[0]+(Math.random()-.5)*.02;out[i*3+1]=p[1]+(Math.random()-.5)*.02;out[i*3+2]=(Math.random()-.5)*.06}return out}
+let S=[],cloud;const g=new THREE.BufferGeometry(),pos=new Float32Array(N*3),col=new Float32Array(N*3),seed=new Float32Array(N);
+for(let i=0;i<N;i++){seed[i]=Math.random()}
+cloud=new Float32Array(N*3);for(let i=0;i<N;i++){const a=Math.random()*6.283,rr=3+Math.random()*9,z=-20+Math.random()*30;cloud[i*3]=Math.cos(a)*rr;cloud[i*3+1]=Math.sin(a)*rr*.6;cloud[i*3+2]=z}
+g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('color',new THREE.BufferAttribute(col,3));
+const mat=new THREE.PointsMaterial({size:.055,vertexColors:true,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false});
+scene.add(new THREE.Points(g,mat));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,cl=(x)=>Math.max(0,Math.min(1,x));
+const hot=new THREE.Color('#ff5a1f'),warm=new THREE.Color('#ffd7a3'),cool=new THREE.Color('#7fb4ff');
+window.ready=document.fonts.ready.then(async()=>{await document.fonts.load('900 200px Unbounded','ХОЧЕТСЯ GVM');await document.fonts.load('500 40px Onest','GOOD VIBES MEDIA');
+ S=[sample([['ХОЧЕТСЯ',"900 190px Unbounded",300],['СМОТРЕТЬ',"900 150px Unbounded",470]]),sample([['GVM',"900 360px Unbounded",340],['GOOD VIBES MEDIA',"500 46px Onest",590]])]});
+window.render=t=>{
+ // timeline: 0-1.6 swarm → 1.6-2.8 form word1 → hold → 3.6-4.4 burst → 4.4-5.6 form logo → hold
+ const f1=ease(cl((t-.9)/1.6)),burst=cl((t-3.5)/.6),f2=ease(cl((t-4.1)/1.4));
+ for(let i=0;i<N;i++){const s=seed[i],k=i*3;const sw=t*.6+s*20;
+  const cx=cloud[k]+Math.sin(sw+cloud[k+1])*.8,cy=cloud[k+1]+Math.cos(sw*1.3+cloud[k])*.6,cz=cloud[k+2]+((t*3+s*30)%30)-15;
+  let x=cx+(S[0][k]-cx)*f1,y=cy+(S[0][k+1]-cy)*f1,z=cz+(S[0][k+2]-cz)*f1;
+  const bx=x+(x*.8+Math.sin(s*50)*3)*burst,by=y+(y*.8+Math.cos(s*70)*3)*burst,bz=z+(s-.5)*14*burst;
+  x=bx+(S[1][k]-bx)*f2;y=by+(S[1][k+1]-by)*f2;z=bz+(S[1][k+2]-bz)*f2;
+  pos[k]=x;pos[k+1]=y;pos[k+2]=z;
+  const settle=Math.max(f1*(1-burst),f2),c=s<.12?cool:(s<.55?hot:warm),fl=.55+.75*settle;col[k]=c.r*fl;col[k+1]=c.g*fl;col[k+2]=c.b*fl}
+ g.attributes.position.needsUpdate=true;g.attributes.color.needsUpdate=true;
+ cam.position.set(Math.sin(t*.35)*1.8,Math.cos(t*.3)*.6,12-2.2*Math.max(f1*(1-burst),f2));cam.lookAt(0,0,0);r.render(scene,cam)};
+</script></body></html>
