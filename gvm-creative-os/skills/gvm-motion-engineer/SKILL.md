@@ -19,3 +19,6 @@ description: "Создавай качественную анимированну
 
 ## Acceptance
 Есть исходники, контрольный кадр, реальный preview/render, проверка читаемости на телефоне, параметры импорта; если нет рендера — статус «исходники готовы, финальный файл не проверен».
+
+## Бренд GVM
+Для материалов самой Good Vibes Media (не клиентов) бери палитру, шрифт и логотип из `gvm-creative-os/brand/` (`tokens.json`, `gvm-original.svg`, `gvm-logo-paper.svg`) или из артефакта Design System «Good Vibes Media»: https://claude.ai/artifact/HP7RfGJvaP9pNe3igbBxSy. Логотип не перерисовывай; бренд клиента не подменяй брендом GVM.

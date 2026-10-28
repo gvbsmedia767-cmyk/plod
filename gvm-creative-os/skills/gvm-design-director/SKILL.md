@@ -18,3 +18,6 @@ description: "Проектируй премиальные креативы, ин
 
 ## Deliverables
 Концепция, дизайн-спецификация, исходники/варианты, финальный формат и проверка. При фоторедактировании перечисляй только фактически выполненные изменения.
+
+## Бренд GVM
+Для материалов самой Good Vibes Media (не клиентов) бери палитру, шрифт и логотип из `gvm-creative-os/brand/` (`tokens.json`, `gvm-original.svg`, `gvm-logo-paper.svg`) или из артефакта Design System «Good Vibes Media»: https://claude.ai/artifact/HP7RfGJvaP9pNe3igbBxSy. Логотип не перерисовывай; бренд клиента не подменяй брендом GVM.
